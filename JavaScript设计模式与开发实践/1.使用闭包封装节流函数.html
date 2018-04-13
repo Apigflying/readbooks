@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		window.onresize mousemove 
+		上传的进度展示 由于上述三个事件都是高频率的触发。
+		执行函数的频率过高。可能会造成卡顿，所以使用节流函数。减少触发事件的频率 
+		原理：使用定时器＋闭包 => 节流函数
+		<script>
+			var throttle = function(fn, interval) {
+				var timer, isFirst = true;
+				return function() {
+					var args = arguments,
+						_me = this;
+					if(isFirst) {
+						fn.apply(_me, args);
+						return isFirst = false;
+					}
+					if(timer) {
+						return false
+					}
+					timer = setTimeout(function() {
+						clearTimeout(timer);
+						timer = null;
+						fn.apply(_me, args)
+					}, interval || 500)
+
+				}
+			}
+
+			window.onresize = throttle(function() {
+				//doSometing...
+			}, 200);
+			/*
+			 	1.页面在加载的时候，timer和isFirst都会被定义，
+			 	throttle();
+			 	是直接点用函数
+			 	匿名函数中return前面的代码会被执行
+			 	
+			 	2.当事件第一次触发的时候
+			 		isFirst为true，直接执行函数
+			 		后面的代码不执行
+			 	3.当事件第二次触发的时候
+			 		isFirst为false
+			 		timer为null跳过return
+			 		timer被赋值，开启定时器，读取秒数
+			 	4.当事件第三次触发的时候
+			 		isFirst以后都为false
+			 		此时timer保存的上一次的定时器编号，此时timer会存在，把事件都return掉
+			 	5.当读取完定时器的秒数后，定时器内的事件被执行
+			 		1）.先清除定时器，保证一次只有一个定时器
+			 		2）.将timer变为null，以便下一次定时器可以再被赋值
+			 		3）.执行函数
+			 		
+			 	6.当事件再次执行，从上面的步骤3，开始3->4->5->3依次执行
+			 	
+			*/
+		</script>
+	</body>
+
+</html>

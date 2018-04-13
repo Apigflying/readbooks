@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		栈的数据结构：
+			遵从原则 - 新元素靠近栈顶，旧元素堆积在栈底
+		<script>
+			// 创建strack类 用数组模拟栈
+			class Strack {
+				constructor(){
+					this.items = [];
+				}
+				push(ele){//往栈内添加元素
+					return this.items.push(ele);
+				}
+				print(){//输出整个栈
+					console.log(this.items)
+					return this.items;
+				}
+				size(){//输出栈的长度
+					return this.items.length;
+				}
+				isEmpty(){//判断栈是否为空
+					return this.items.length === 0;
+				}
+				clear(){//清空栈
+					this.itmes = [];
+				}
+				peek(){//返回栈的最后一项
+					return this.items[this.items.length - 1];
+				}
+				pop(){
+					return this.items.pop();
+				}
+			}
+			var strack1 = new Strack();
+			strack1.push(123);
+			strack1.pop();
+			strack1.print();
+		</script>
+	</body>
+</html>
