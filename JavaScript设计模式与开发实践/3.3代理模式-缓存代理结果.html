@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			/* 对于纯函数来说，传入的参数相同，返回的数据也是相同的（排除Math.random()，+new Date()等不确定因素的印象） */
+			var mult = function() {
+				console.log('开始计算乘积');
+				var a = 1; // 假设这个函数是一个开销很大的同步纯函数
+				for(var i = 0, l = arguments.length; i < l; i++) {
+					a = a * arguments[i];
+				}
+				return a;
+			};
+			mult(2, 3); // 输出：6
+			mult(2, 3, 4); // 输出：24
+
+			var proxyMult = (function() {
+				var cache = {};
+				// 以key - value的形式保存参数对应的结果
+				return function() {
+					var args = Array.prototype.join.call(arguments, ',');
+					if(args in cache) {
+						// 当参数相同时，可以直接在cache缓存中读取结果
+						return cache[args];
+					}
+					return cache[args] = mult.apply(this, arguments);
+				}
+			})();
+			proxyMult(1, 2, 3, 4); // 输出：24
+			proxyMult(1, 2, 3, 4); // 输出：24 这次是在cache缓存中读取的
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function Dyh(){
+				// 订阅号的属性
+				this.name="";
+				this.createTime="";
+				this.articleList = [];// 存放文章列表
+			};
+			Dyh.prototype.getName = function(){
+				return this.name;
+			};
+			Dyh.prototype.addArticle = function(aritcle,tellDyher){
+				// 添加文章的钩子函数
+				this.articleList.push(article);
+				tellDyher();
+				return article;
+			};
+			
+		</script>
+	</body>
+</html>

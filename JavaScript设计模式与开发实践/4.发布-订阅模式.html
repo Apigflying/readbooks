@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			var xm = {
+				name:'小明',
+				// 其他属性或者订阅其他信息
+				listenSaleOffice1:function(prise,meter){ // 用户对订阅号发布信息时做出的行为
+					// 参数就是发布的信息内容
+					console.log(prise,meter);
+				}
+			};
+			var xh = {
+				name:'小红',
+				// 其他属性或者订阅其他信息
+				listenSaleOffice2:function(prise,meter){ // 用户对订阅号发布信息时做出的行为
+					// 参数就是发布的信息内容
+					console.log(prise,meter);
+				}
+			};
+			
+			
+			var saleOffice = {}; // 订阅号对象
+			saleOffice.clientList = []; // 保存订阅者们订阅信息，执行的事件
+			
+			saleOffice.listen = function(fn){// 此行为会记录订阅者们提交的行为
+				this.clientList.push(fn);				
+			};
+			
+			saleOffice.trigger = function(){ // 发布信息时，要做的事
+				for(let i=0,fn;fn = this.clientList[i++];){
+					fn.apply(this,arguments);
+				}
+			};
+			// 小明成为订阅者
+			saleOffice.listen(xm.listenSaleOffice1); 
+			saleOffice.listen(xh.listenSaleOffice2); 
+			setTimeout(function(){// 一段时间之后，发布信息
+				saleOffice.trigger(122,222);
+				saleOffice.trigger(60,102);
+			},2000)
+		</script>
+	</body>
+</html>
